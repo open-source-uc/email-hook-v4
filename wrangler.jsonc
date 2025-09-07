@@ -4,7 +4,7 @@
  */
 {
 	"$schema": "node_modules/wrangler/config-schema.json",
-	"name": "v4-email-hook",
+	"name": "email-hook-v4",
 	"main": "src/index.ts",
 	"compatibility_date": "2025-07-12",
 	"observability": {
