@@ -16,11 +16,13 @@ export default {
 		return new Response("Hola mundo!");
 	},
 	async email(message, env, ctx) {
-		await env.DB
-			.prepare(`
-			INSERT OR REPLACE INTO verification_codes (email) VALUES (?)`)
-			.bind(message.from.split("@")[0])
-			.run();
+		if (message.from.endsWith(".uc.cl") || message.from.endsWith("@uc.cl")) {
+			await env.DB
+				.prepare(`
+				INSERT OR REPLACE INTO verification_codes (email) VALUES (?)`)
+				.bind(message.from.split("@")[0])
+				.run();
+		}
 	},
 	async scheduled(controller, env, ctx) {
 		try {
