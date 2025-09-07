@@ -13,6 +13,14 @@
 
 export default {
 	async fetch(request, env, ctx): Promise<Response> {
-		return new Response('Hello World!');
+		return new Response("Hola mundo!");
 	},
+	async email(message, env, ctx) {
+		await env.DB
+			.prepare(`
+			INSERT OR REPLACE INTO verification_codes (email) VALUES (?)`)
+			.bind(message.from.split("@")[0])
+			.run();
+	}
+
 } satisfies ExportedHandler<Env>;
