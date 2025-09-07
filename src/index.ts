@@ -21,6 +21,17 @@ export default {
 			INSERT OR REPLACE INTO verification_codes (email) VALUES (?)`)
 			.bind(message.from.split("@")[0])
 			.run();
+	},
+	async scheduled(controller, env, ctx) {
+		try {
+			await env.DB
+				.prepare(`
+				DELETE FROM verification_codes 
+				WHERE created_at < datetime('now', '-2 days')`)
+				.run();
+		} catch (error) {
+			console.error('Error during cleanup:', error);
+		}
 	}
 
 } satisfies ExportedHandler<Env>;
